@@ -17,3 +17,11 @@ const update = (req, res) => {
 const destroy = (req, res) => {
     res.send('Elimina post ' + req.params.id)
 }
+
+module.exports = {
+    index,
+    show,
+    store,
+    update,
+    destroy
+}
