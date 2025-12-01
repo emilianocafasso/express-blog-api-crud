@@ -61,7 +61,7 @@ const store = (req, res) => {
     }
 
     // genero nuovo id
-    const newId = posts.length + 1;
+    const newId = posts[posts.length - 1].id + 1;
 
     // creo il post
     const newPost = {
