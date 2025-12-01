@@ -56,8 +56,11 @@ const store = (req, res) => {
     console.log('Dati ricevuti nel body: ', req.body);
 
 
-    if (!req.body) {
-        log('Errore: req.body undefined')
+    if (!req.body.title || !req.body.content) {
+        return res.status(400).json({
+            error: 'Dati mancanti',
+            message: 'Title e content sono obbligatori'
+        })
     }
 
     // genero nuovo id
