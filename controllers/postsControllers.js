@@ -7,7 +7,7 @@ const show = (req, res) => {
 }
 
 const store = (req, res) => {
-    res.send('Crea nuovo post')
+    res.send('Creazione nuovo post')
 }
 
 const update = (req, res) => {
