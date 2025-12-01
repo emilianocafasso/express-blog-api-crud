@@ -1,21 +1,63 @@
+const posts = require('../posts')
+
+// INDEX - Restituisce tutta la lista dei post
 const index = (req, res) => {
-    res.send('Lista dei post')
+    console.log('Richiesta ricevuta: GET /posts');
+    res.json(posts)
 }
 
+// SHOW - Restituisce post specifico
 const show = (req, res) => {
-    res.send('Info del post ' + req.params.id)
+
+    // recupero l'id dall' URL e lo trasformo in numero
+    const id = parseInt(req.params.id)
+    console.log(`Richiesta ricevuta: GET /posts/${id}`);
+
+    const post = posts.find(post => post.id === id)
+
+    if (!post) {
+        return res.json({
+            error: "Post non trovato",
+            message: `Nessun post trovato con id ${id}`
+        })
+    }
+    res.json(post)
+}
+// DESTROY - Elimina un singolo post
+const destroy = (req, res) => {
+
+    const id = parseInt(req.params.id)
+    console.log(`Richiesta ricevuta: DELETE /posts/${id}`);
+
+    const postIndex = posts.findIndex(post => post.id === id)
+
+    if (postIndex === -1) {
+        return res.json({
+            error: "Post non trovato",
+            message: `Eliminazione fallita, nessun post trovato con id ${id}`
+        })
+    }
+
+    // Memorizzo il post che sto per eliminare per il log
+    const postEliminato = posts[postIndex]
+
+    // Elimino il post dall'array con uno splice
+    posts.splice(postIndex, 1)
+
+    console.log('Array posts dopo il DELETE:');
+    console.log(posts);
+
+    res.sendStatus(204);
 }
 
+// STORE - Creazione nuovo post
 const store = (req, res) => {
     res.send('Creazione nuovo post')
 }
 
+// UPDATE - Modifica del singolo post 
 const update = (req, res) => {
     res.send('Modifica del post ' + req.params.id)
-}
-
-const destroy = (req, res) => {
-    res.send('Elimina post ' + req.params.id)
 }
 
 module.exports = {
