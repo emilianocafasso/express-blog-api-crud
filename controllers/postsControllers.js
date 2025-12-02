@@ -1,5 +1,4 @@
 const posts = require('../posts');
-const { post } = require('../routers/posts');
 
 // INDEX - Restituisce tutta la lista dei post
 const index = (req, res) => {
