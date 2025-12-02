@@ -1,4 +1,5 @@
-const posts = require('../posts')
+const posts = require('../posts');
+const { post } = require('../routers/posts');
 
 // INDEX - Restituisce tutta la lista dei post
 const index = (req, res) => {
@@ -85,7 +86,38 @@ const store = (req, res) => {
 
 // UPDATE - Modifica del singolo post 
 const update = (req, res) => {
-    res.send('Modifica del post ' + req.params.id)
+    console.log(`Richiesta ricevuta: PUT /posts/${id}`);
+    console.log('Dati ricevuti: ', req.body);
+
+    // trovo il post da modificare
+    const postIndex = posts.findIndex(post => post.id === id)
+
+    if (postIndex === -1) {
+        console.log(`Nesusn post con id ${id} trovato`);
+        return res.status(404).json({
+            error: 'Post non trovato',
+            message: `Impossibile aggiornare: nessun post con id ${id}`
+        })
+    }
+
+    const previousPost = posts[postIndex]
+
+    // aggiorno solo i campi forniti mantenendo gli altri
+    const updatedPost = {
+        ...previousPost,    // copio tutte le proprietà esistenti
+        ...req.body,    // sovrascrivo con le nuove proprietà
+        id: previousPost.id
+    }
+
+    // sostituisco il post aggiornato nell'array
+    posts[postIndex] = updatedPost
+
+    console.log(`Post con ID ${id} aggiornato`);
+    console.log('Post prima: ', previousPost);
+    console.log('Post dopo: ', updatedPost);
+
+    // restituisco il post aggiornato
+    res.json(updatedPost)
 }
 
 module.exports = {
