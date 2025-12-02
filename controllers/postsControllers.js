@@ -17,11 +17,13 @@ const show = (req, res) => {
     const post = posts.find(post => post.id === id)
 
     if (!post) {
-        return res.json({
+        console.log(`Post con ID ${id} non trovato`);
+        return res.status(404).json({
             error: "Post non trovato",
             message: `Nessun post trovato con id ${id}`
         })
     }
+    console.log(`Post con ID ${id} trovato: ${post.title}`);
     res.json(post)
 }
 // DESTROY - Elimina un singolo post
