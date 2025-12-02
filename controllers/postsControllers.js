@@ -35,7 +35,8 @@ const destroy = (req, res) => {
     const postIndex = posts.findIndex(post => post.id === id)
 
     if (postIndex === -1) {
-        return res.json({
+        console.log(`Post con ID ${id} non trovato`);
+        return res.status(404).json({
             error: "Post non trovato",
             message: `Eliminazione fallita, nessun post trovato con id ${id}`
         })
